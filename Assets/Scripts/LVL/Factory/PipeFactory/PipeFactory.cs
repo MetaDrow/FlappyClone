@@ -16,7 +16,11 @@ public class PipeFactory : BaseFactory<PipePrefab>
 
     private void Update()
     {
-        Spawned();
+        if (Character.localPosition.z > PrefabSpawned[^1]._end.transform.position.z - playerPrefabDistance)
+        {
+            Spawned();
+        }
+
     }
     public override PipePrefab Spawned()
     {
@@ -26,6 +30,17 @@ public class PipeFactory : BaseFactory<PipePrefab>
 
         newPipe.transform.position = previousEndPos + endPos;
         PrefabSpawned.Add(newPipe);
-        return null;
+
+        if (PrefabSpawned.Count >= prefabCount)
+        {
+            Destroy(PrefabSpawned[1].gameObject);
+            PrefabSpawned.RemoveAt(0);
+        }
+        return newPipe;
+    }
+
+    private void PrefabCount()
+    {
+
     }
 }

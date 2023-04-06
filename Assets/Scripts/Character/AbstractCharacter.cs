@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class AbstractCharacter : MonoBehaviour
+internal class AbstractCharacter : MonoBehaviour
 {
-    public Rigidbody _rb;
-    public float _speed;
+    [SerializeField] Rigidbody _rb;
+    [SerializeField] float _impulse;
+    [SerializeField] float _gravityScale;
+    [SerializeField] float _forwardMove;
+
+    public event EventHandler OnSpacePressed;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -14,23 +20,28 @@ public class AbstractCharacter : MonoBehaviour
 
     void Update()
     {
-        MoveForward();
 
     }
+    
 
     private void FixedUpdate()
     {
-
+        MoveForward();
+        Gravity();
     }
 
     void MoveForward()
     {
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            var a = new Vector3(0, 1, 0.25f) * _speed;
-          //  _rb.AddForce(a * _speed);
-
-            _rb.AddForce(a,ForceMode.Impulse);
+            var a = new Vector3(0, 1, _forwardMove) * _impulse;
+            //  _rb.AddForce(a * _speed);
+            _rb.AddForce(a, ForceMode.Impulse);
         }
+    }
+
+    void Gravity()
+    {
+        Physics.gravity = new Vector3(0, -_gravityScale, 0);
     }
 }
