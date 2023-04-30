@@ -1,3 +1,3 @@
 # FlappyClone
 
-Simple clone Flappy Bird ьechanics.
+Simple clone Flappy Bird mechanics.
